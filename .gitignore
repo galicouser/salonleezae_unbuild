@@ -1,52 +1,37 @@
-# Ignore node_modules and vendor folders
-/node_modules
-/vendor
-
-# Ignore compiled Blade files
-/storage/framework/views/*.php
-
-# Ignore environment files
-.env
-.env.*.backup
-
-# Ignore IDE and system-specific files
-.idea
-.vscode
-.DS_Store
-Thumbs.db
-
-# Ignore Laravel storage and cache directories
-/storage/*.key
-/storage/*.log
-/storage/*.backup
-/storage/framework/cache/*
-/storage/framework/sessions/*
-/storage/framework/testing/*
-/storage/framework/views/*
-/storage/logs/*
-
-# Ignore public storage symlink if present
-/public/storage
-
-# Ignore compiled assets
+node_modules
 /public/hot
 /public/storage
-/public/mix-manifest.json
-
-# Ignore Laravel Mix manifest and compiled files
-/npm-debug.log*
-/yarn-error.log*
-/yarn-debug.log*
-/public/js/app.js
-/public/css/app.css
-/mix-manifest.json
-
-# Ignore PHPUnit result cache
+/storage/*.key
+/vendor
+.env
+.env.backup
 .phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/.idea
+/.vscode
+*.cache
+.DS_Store
 
-# Ignore backup files
-*.bak
-*.backup
 
-# Ignore Composer related files
-composer.lock
+# Below Comments For Design Style & Scripts
+# /public/css/*
+# !/public/css/.gitkeep
+# /public/js/core/*
+# !/public/js/core/.gitkeep
+
+# /public/js/*.js*
+# !/public/js/.gitkeep
+
+# /public/js/iqonic-script/*.min.js*
+# !/public/js/iqonic-script/.gitkeep
+# !/public/js/setting-init.js
+
+# /public/modules/**/*
+# !/public/modules/.gitkeep
+# /public/mix-manifest.json
+node_modules
+node_modules
+/storage/media-library/**/*
