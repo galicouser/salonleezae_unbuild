@@ -648,6 +648,45 @@ class EmployeesController extends Controller
         return view('employee::backend.employees.review', compact('module_title', 'module_name', 'filter', 'export_import', 'export_columns', 'export_url'));
     }
 
+    public function schedule(Request $request)
+    {
+        $module_title = __('employee.schedule_title');
+
+        $module_name = 'schedule';
+
+        $filter = $request->filter;
+        $export_import = false;
+        $export_columns = [
+            [
+                'value' => 'datetime',
+                'text' => 'Date',
+            ],
+            [
+                'value' => 'emp_name',
+                'text' => 'Employee Name',
+            ],
+            [
+                'value' => 'clock_in',
+                'text' => 'Clock In',
+            ],
+            [
+                'value' => 'clock_out',
+                'text' => 'Clock Out',
+            ],
+            [
+                'value' => 'hrs_worked',
+                'text' => 'Hours Worked',
+            ],
+            [
+                'value' => 'comments',
+                'text' => 'Comments',
+            ]
+        ];
+        $export_url = route('backend.employees.reviewExport');
+
+        return view('employee::backend.employees.schedule', compact('module_title', 'module_name', 'filter', 'export_import', 'export_columns', 'export_url'));
+    }
+
     public function reviewExport(Request $request)
     {
         $this->exportClass = '\App\Exports\ReviewsExport';
@@ -656,6 +695,70 @@ class EmployeesController extends Controller
     }
 
     public function review_data(Datatables $datatable, Request $request)
+    {
+        $query = EmployeeRating::with('user', 'employee')->orderBy('updated_at', 'desc');
+        $filter = $request->filter;
+        if (isset($filter)) {
+            if (isset($filter['column_status'])) {
+                $query->where('status', $filter['column_status']);
+            }
+        }
+        $datatable = $datatable->eloquent($query)
+            ->addColumn('check', function ($data) {
+                return '<input type="checkbox" class="form-check-input select-table-row"  id="datatable-row-'.$data->id.'"  name="datatable_ids[]" value="'.$data->id.'" onclick="dataTableRowCheck('.$data->id.')">';
+            })
+            ->addColumn('image', function ($data) {
+                return '<img src='.$data->user->profile_image." class='avatar avatar-50 rounded-pill'>";
+            })
+            ->addColumn('action', function ($data) {
+                return view('employee::backend.employees.review_action_column', compact('data'));
+            })
+            ->filterColumn('employee_id', function ($query, $keyword) {
+                if (! empty($keyword)) {
+                    $query->whereHas('employee', function ($q) use ($keyword) {
+                        $q->where('first_name', 'like', '%'.$keyword.'%');
+                        $q->orWhere('last_name', 'like', '%'.$keyword.'%');
+                    });
+                }
+            })
+            ->editColumn('employee_id', function ($data) {
+                $employee_id = isset($data->employee->full_name) ? $data->employee->full_name : '-';
+
+                return $employee_id;
+            })
+
+            ->filterColumn('user_id', function ($query, $keyword) {
+                if (! empty($keyword)) {
+                    $query->whereHas('user', function ($q) use ($keyword) {
+                        $q->where('first_name', 'like', '%'.$keyword.'%');
+                        $q->orWhere('last_name', 'like', '%'.$keyword.'%');
+                    });
+                }
+            })
+
+            ->editColumn('user_id', function ($data) {
+                $user_id = isset($data->user->full_name) ? $data->user->full_name : '-';
+
+                return $user_id;
+            })
+            ->editColumn('updated_at', function ($data) {
+                $module_name = $this->module_name;
+
+                $diff = Carbon::now()->diffInHours($data->updated_at);
+
+                if ($diff < 25) {
+                    return $data->created_at->diffForHumans();
+                } else {
+                    return $data->created_at->isoFormat('llll');
+                }
+            })
+            ->orderColumns(['id'], '-:column $1');
+
+        return $datatable->rawColumns(array_merge(['action', 'image', 'check']))
+            ->toJson();
+    }
+
+    public function schedule_data(Datatables $datatable, Request $request)
     {
         $query = EmployeeRating::with('user', 'employee')->orderBy('updated_at', 'desc');
         $filter = $request->filter;

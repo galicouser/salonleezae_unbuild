@@ -40,6 +40,7 @@ return [
     'msg_verified' => 'Verified',
     'lbl_action' => 'Action',
     'review_title' => 'Reviews',
+    'schedule_title' => 'Schedule',
     'lbl_client_name' => 'Client Name',
     'lbl_emp_name' => 'Employee Name',
     'lbl_message' => 'Message',
@@ -47,5 +48,11 @@ return [
     'lbl_updated' => 'Updated',
     'lbl_action' => 'Action',
     'change_password' => 'Change Password',
+    'sch_datetime' => 'Date',
+    'sch_emp_name' => 'Employee Name',
+    'sch_clock_in' => 'Clock In',
+    'sch_clock_out' => 'Clock Out',
+    'sch_hrs_worked' => 'Hours Worked',
+    'sch_comments' => 'Comments',
 
 ];

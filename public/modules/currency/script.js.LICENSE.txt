@@ -15,9 +15,3 @@
   * (c) 2022 kazuya kawaguchi
   * Released under the MIT License.
   */
-
-/*!
-  * vue-i18n v9.2.2
-  * (c) 2022 kazuya kawaguchi
-  * Released under the MIT License.
-  */

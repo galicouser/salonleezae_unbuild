@@ -36,6 +36,7 @@ Route::group(['prefix' => 'app', 'as' => 'backend.', 'middleware' => ['auth']], 
      */
 
     Route::group(['prefix' => 'employees', 'as' => 'employees.'], function () {
+
         Route::get('index_list', [EmployeesController::class, 'index_list'])->name('index_list');
         Route::get('commision_list', [EmployeesController::class, 'commision_list'])->name('commision_list');
 
@@ -45,6 +46,7 @@ Route::group(['prefix' => 'app', 'as' => 'backend.', 'middleware' => ['auth']], 
         Route::post('block-employee/{id}', [EmployeesController::class, 'block_employee'])->name('block-employee');
         Route::post('verify-employee/{id}', [EmployeesController::class, 'verify_employee'])->name('verify-employee');
         Route::get('review_data', [EmployeesController::class, 'review_data'])->name('review_data');
+        Route::get('schedule_data', [EmployeesController::class, 'schedule_data'])->name('schedule_data');
         Route::delete('destroy_review/{id}', [EmployeesController::class, 'destroy_review'])->name('destroy_review');
         Route::get('index_data', [EmployeesController::class, 'index_data'])->name('index_data');
         Route::get('trashed', [EmployeesController::class, 'trashed'])->name('trashed');
@@ -55,5 +57,8 @@ Route::group(['prefix' => 'app', 'as' => 'backend.', 'middleware' => ['auth']], 
         Route::get('review-export', [EmployeesController::class, 'reviewExport'])->name('reviewExport');
     });
     Route::get('employees-review', [EmployeesController::class, 'review'])->name('employees.review');
+    
+    //custom code for employee schedule
+    Route::get('employee_schedule', [EmployeesController::class, 'schedule'])->name('employees.schedule');
     Route::resource('employees', EmployeesController::class);
 });
