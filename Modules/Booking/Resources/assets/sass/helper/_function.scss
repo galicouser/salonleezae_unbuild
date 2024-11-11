@@ -1,3 +1,0 @@
-@function custom-var($color) {
-    @return var(--#{$prefix}#{$color});
-}
